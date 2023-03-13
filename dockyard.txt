@@ -1,0 +1,286 @@
+///Demonstrate following preprocessing operations using R/Python
+
+library(mice)
+x=read.csv("C:/Users/HP/Documents/DS/titanic_train.csv")
+a.	Deleting missing values
+
+x=na.omit(x) //is used to delete the rows of missing data
+
+b.	Replacing missing values
+Replacing the missing value from the age column 
+
+age=mean(dup$Age, na.rm=TRUE)
+age=replace(x$age,is.na(x$Age),age)
+
+c.	Imputing missing values
+Imputing missing values means using a statistical technique to fill in missing values with estimated values.
+
+miss=mice(x[,c("Age","Pclass,"Cabin")])
+
+d.	Work with categorical variables
+If we check the levels of the SEX column from the dataset
+Categorical variable we get only on the factor value to distinguishing into gender 
+
+x$Sex=as.factor(x$Sex)//this will convert the string to factor variables
+x$Sex=ifelse(x$Sex=="male",1,0) // the levels will start with male
+View(x$Sex)
+ 
+e.	Work with outlier
+Outliers are data points that don’t fit the pattern of the rest of the data set. The best way to detect the outliers in the given data set is to plot the boxplot of the data set and the point located outside the box in the boxplot are all the outliers in the data set.
+
+x$Embarked=ifelse(x$Embarked=="S",2,ifelse(x4Embarked=="C",1,0))
+x$Embarked
+summary(x)
+View(x)
+boxplot(X$Age)
+
+ 
+///Demonstrate Simple/Multiple Linear Regression model using R/Python
+Use Dataset: Use any suitable dataset
+a)  	Define Problem Statement
+We want to understand the relationship between the number of cylinders in a car and its fuel efficiency, measured in Miles per Gallon (mpg). We want to build a Simple Linear Regression model to predict the mpg based on the number of cylinders.
+b)  	Define Null Hypothesis
+The null hypothesis is that there is no significant linear relationship between the number of cylinders and the fuel efficiency in the mtcars dataset.
+c)  	Perform Pre-processing operations on dataset
+x=mtcars #import inbuilt datasets mtcars
+x
+x=na.omit(x) #checking the null values on the mtcars
+
+//lmim=mice(y[,c("mpg","cyl","disp","hp","vs","am")])#checking the empty columns
+For this dataset we can conclude that there is no need to check the missing data due to the data is fulfilled the criteria (all data are completed)
+d) 	Prepare Model
+model=lm(mpg~cyl,data=x )
+model
+e)  	Use Model for prediction
+pd=predict(model)
+pd
+f)   	Evaluate Model
+summary(model) //pvalue
+plot(mpg~cyl, data=x) or plot(x$mpg~x$cyl)
+abline(model, col=”blue”)#before this line we have to call the plot()
+ 
+
+
+ 
+///Demonstrate Multiple Linear Regression in mtcars dataset using R
+a)	Define Problem Statement
+We want to understand the relationship between several variables (cylinders, displacement, horsepower, weight, acceleration, and model year) in a car and its fuel efficiency, measured in Miles per Gallon (mpg). We want to build a Multiple Linear Regression model to predict the mpg based on these variables.
+b)	Define Null Hypothesis
+The null hypothesis is that there is no significant linear relationship between (the column names which u r going to use) and the fuel efficiency in the mtcars dataset.
+c)	Perform Pre-processing operations on dataset
+Same as above
+d)	Prepare Model
+model=lm(mpg~cyl+disp+hp+wt,data=x)
+model
+e)	Use Model for prediction
+predict(model)
+f)	Evaluate Model
+summary(model)
+plot(mpg~cyl, data=x) or plot(x$mpg~x$cyl)
+abline(model, col=”blue”)#before this line we have to call the plot()
+ 
+Perform following tasks
+a)      Create any R markdown document implementing any machine learning algorithm of your choice.
+1.	Open RStudio.
+2.	Click on File > New File > R Markdown.
+3.	Choose a title for your document and select the output format (HTML, PDF, or Word).
+4.	Choose a default template or create your own custom template.
+5.	Write the content of your document in R Markdown format, including any code chunks for machine learning algorithms.
+6.	Knit the document to produce the output.
+b)      Upload it in your RStudio account
+1.	Click on the "Publish" button in the top-right corner of the RStudio window.
+2.	Choose "RPubs" as the publishing service.
+3.	Enter a title and description for your document.
+4.	Click on "Publish".
+5.	After the upload is complete, you will receive a link to your published document.
+https://rpubs.com/abcM/linearreg 
+
+
+///Demonstrate Logistic Regression Using R
+a)  	Define Problem Statement
+We want to determine whether a car is "efficient" or "not efficient" based on its characteristics, such as engine displacement, horsepower, weight, etc
+b)  	Define Null Hypothesis
+There is no significant relationship between the car characteristics and its efficiency.
+c)  	Is it classification or prediction problem. Explain.
+Classification problem , this problem is classified into efficient and not efficient
+d) 	Perform Pre-processing operations on dataset
+x=mtcars
+x$mpg=ifelse(x$mpg > 20 ,1 ,0)//x$mpg is greater than 20 print 1 or else 0
+x
+summary(x)
+e)  	Prepare Model
+model=glm(mpg~. , data=x)
+model
+f)   	Use Model for prediction
+pred=predict(model) 
+# type=”response/link”gives same O/P and terms gives the all columns prediction value
+pred
+g)  	Evaluate Model
+ pr=ifelse(pred> 0.5,1,0)
+ pr
+> ac=mean(pr==x$mpg)
+> ac
+[1] 0.96875
+> table(pr,x$mpg)  
+pr   0  1
+  0 18  1
+  1  0 13
+> 
+This above table () gives the result of confusion matrix  . So the above programs conclude that there is 18 cars are not efficient and 1 car is predicted efficient but actually wasn’t and 13 cars are efficient.
+
+ 
+///Perform following Hypothesis testing methods using R
+
+a)      One sample t-test
+x=mtcars
+x
+t.test(x$mpg)
+ 
+b)      Two sampled t-test
+t.test(x$mpg~x$vs)#2nd parameter always has 2 levels means(0,1)/true/false/yes/no
+ 
+c)      Paired sampled t-test
+t.test(x$mpg, x$wt, paired=TRUE)
+ 
+d)     ANOVA (F-TEST)
+model=lm(mpg~cyl , data=x)
+anova(model)
+ 
+ 
+///Implement PCAusing R/Python 
+
+a)      What is Dimension reduction?
+Dimension reduction is the process of reducing the number of variables or features in a dataset while retaining as much information as possible
+b)      What are different methods for dimension reduction?
+●	Principal Component Analysis (PCA)
+●	Linear Discriminant Analysis (LDA)
+●	Independent Component Analysis (ICA)
+c)      Why Dimension reduction is important?
+●	It reduces the complexity of the data, making it easier to analyze and interpret.
+●	It can facilitate data compression and storage.
+d)     Implement PCA Algorithm on suitable dataset.
+library(FactoMineR)
+Library(factoextra)
+x=iris[,-5]
+cm=cov(x)
+cm
+ex=eigen(cm)
+ex
+dp=PCA(x,graph=TRUE)# it will give graph
+dp
+dp$var
+summary(dp)
+e)      How to evaluate the above algorithm?
+We will get more information about the principal component using summary(). We can evaluate the effectiveness of PCA by comparing the performance of ml on the original datasets. If the performance of original data is similar to the reduced data after the reduction, then we can conclude that PCA was successfully reduced the iris dataset. 
+
+///Perform following task using MongoDB
+
+a)      Create a suitable database in MongoDB.
+use abcdb//created db
+b)      Create a suitable collection in the database.
+db.createCollection(“user”)//
+c)      Insert 3 documents in the above collection.
+([{}])
+db.user.insertMany([{ 
+name:”abc”,
+surname:”mno”,
+mob:123564879
+},
+{
+name:”abc2”,
+surname:”mno”,
+mob:123564879
+},
+{
+name:”Ashish”,
+surname:”mno”,
+mob:123564879
+}
+])
+d)     Perform CRUD operation on documents inserted in collection.
+db.user.insertOne({
+name:”abc3”,
+surname:”mno”,
+mob:123564879
+})
+
+db.user.find()//to read
+
+db.user.updateOne({name:”abc3”},{$set:{name:”abc ”}})
+db.user.find()
+db.user.deleteOne({name:”abc2”})
+db.user.find()
+
+e)      What is use(s) of MongoDB database?
+It is used in web applications,mobile applications, IoT platforms,RealTime Analytics, BigData
+ 
+///Implement Decision Tree Algorithm (Classifier) using R
+
+a)      Define Problem
+In this problem, we will use the mtcars dataset to build a decision tree classifier that predicts whether a car has high or low mileage per gallon (mpg) based on its characteristics such as horsepower, weight, and number of cylinders
+b)      Implement Decision Tree Algorithm on suitable dataset.
+library(rpart)
+library(rpart.plot)
+> x=read.csv("C:/Users/HP/Documents/DS/weather2.csv")
+> x
+> s=sample(nrow(x),.7*nrow(x))
+> tr=x[s,]
+  tr
+> ts=x[-s,]
+> ts
+> dt=rpart(Hours.Played ~ . ,data=tr)
+>rpart.plot(dt) 
+ 
+c)    How to evaluate the above algorithm?
+> pred=predict(dt,data=tr)
+> pred
+> summary(pred)
+ 
+///Implement K-means clustering using R
+
+a)      What is clustering?
+Clustering is a type of unsupervised learning in which the goal is to group similar data points together based on their characteristics.
+b)      Write steps of K-means clustering algorithm.
+The K-means clustering algorithm involves the following steps:
+1.	Choose the number of clusters K.
+2.	Randomly select K points from the dataset to serve as the initial centroids of the clusters.
+3.	Assign each data point to the cluster whose centroid is closest to it.
+4.	Recalculate the centroids of each cluster based on the mean of the data points assigned to that cluster.
+5.	Repeat steps 3 and 4 until convergence is achieved, i.e., the assignments of data points to clusters do not change.
+c)      How to determine best value of k?
+The best value of K for K-means clustering can be determined using techniques such as the elbow method and the silhouette method. Using WCSS (within-cluster sum of squares)  we get the K value.
+d)     Implement K-means clustering on suitable dataset.
+> x=iris
+> boxplot(x)
+> head(x)
+> summary(x)
+> x=iris[,-5]
+> km<-kmeans(x,centers=3)
+> km
+
+e)How to evaluate the above algorithm?
+> x=iris
+> km$cluster
+> x$Species
+> table(km$cluster,x$Species) 
+
+///Implement Time-series forecasting using R
+
+a)      What is time-series data? Give example.
+Time-series data is a type of data where observations are recorded at equally spaced time intervals. Eg: Weather Data, website traffic data
+b)      Define the problem.
+The problem in time-series forecasting is to predict future values of a variable based on its past values. This is useful in many applications such as finance, economics, and weather forecasting.
+c)      Implement Time-series forecasting on suitable dataset.
+> x=table(AirPassengers)
+> View(x)
+> y=frequency(AirPassengers)
+> y
+> tsd=ts(AirPassengers,frequency=12)
+> tsd
+> plot(tsd)
+> de=decompose(tsd,"multiplicative")
+> plot(de)
+d)     How to evaluate the above algorithm?
+> model=arima(AirPassengers)
+> model
+> summary(model)
